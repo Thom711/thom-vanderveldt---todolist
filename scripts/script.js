@@ -2,6 +2,14 @@ const addTaskButton = document.querySelector('#add-task-button');
 const addTaskValue = document.querySelector('#add-task');
 const toDoList = document.querySelector('.to-do-list');
 
+/*
+    Bekend probleem: JSONbox lijkt intern wat langzaam om te gaan met het verwerken van data.
+    Als je iets toegevoegd hebt, of een checkbox hebt geklikt / iets verwijderd etc. en er
+    lijkt niets te zijn veranderd, probeer eerst het scherm te verversen. 
+
+    Volgens mij ligt het niet aan mijn code, maar dat weet ik natuurlijk niet zeker :)
+*/
+
 const addTask = () => {
     if(addTaskValue.value) {
         const data = {

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0px 80px;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 45px;
+}
+
+.add-task-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 45px;
+
+    input {
+        font-family: 'JetBrains Mono', monospace;
+        width: 100px;
+        transition: ease-in-out .75s;
+        
+        &:focus {
+            width: 400px;
+        }
+    }
+    
+    button {
+        font-family: 'JetBrains Mono', monospace;
+    }
+}
+
+.to-do-list-container {
+    display: flex;
+    justify-content: center;
+
+    .to-do-list {
+        background-color: rgb(212, 229, 248);
+        border: 1px solid black;
+        border-radius: 15px;
+        width: 550px;
+        min-height: 50px;
+
+        .to-do-list-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px solid black;
+            margin: 0;
+        
+            &:last-child {
+                border-bottom: unset;
+            }
+
+            .checkbox {
+                padding-left: 10px;
+                width: 10%;
+            }
+
+            .text-field {
+                width: 83%;
+
+                .strike-through {
+                    text-decoration: line-through;
+                }
+            }
+
+            .trashcan {
+                padding-left: 10px;
+                width: 7%;
+
+                .orange {
+                    color: orange;
+                    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 1px -1px; 
+                }
+            }
+        }
+    }
+}
+
+.bShadow-33, .bShadow-33h:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 10px 10px 5px -5px; 
+}

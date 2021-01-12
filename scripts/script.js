@@ -10,15 +10,21 @@ const toDoList = document.querySelector('.to-do-list');
     Volgens mij ligt het niet aan mijn code, maar dat weet ik natuurlijk niet zeker :)
 */
 
+/*
+    On page load: haal de data uit de API en laadt die in een local array. Tijdens het werken
+    werk je zowel de local array bij als de externe bron. De DOM vul je met data uit de local array.
+    Als de pagina ververst wordt de localarray weer opnieuw bijgetrokken uit JSONbox.
+*/
+
 const addTask = () => {
     if(addTaskValue.value) {
         const data = {
             description: addTaskValue.value,
             done: false
         };
-    
+          
         postData(data, apiUri).then(
-            fillToDoList()
+            fillToDoList()  
         );
     };
 
@@ -28,7 +34,7 @@ const addTask = () => {
 const generateToDoListItem = (item) => {
     if(item.done == false) {
         checked = '';
-        strike = ``;
+        strike = '';
     } else {
         checked = `checked="true"`;
         strike = `strike-through`;
@@ -105,6 +111,12 @@ const fillToDoList = () => {
         });
     });
 };
+
+// const waitForUpdate = () => {
+//         setTimeout(function() {
+//             fillToDoList();
+//         }, 1000);
+// };
 
 addEventListeners();
 fillToDoList();

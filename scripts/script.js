@@ -35,7 +35,7 @@ const generateToDoListItem = (item) => {
         </div>`;
 };
 
-async function fillToDoListItem(toDoList, item) {
+const fillToDoListItem = (toDoList, item) => {
     element = document.createElement('div');
     element.classList.add('to-do-list-item');
     element.innerHTML = generateToDoListItem(item);

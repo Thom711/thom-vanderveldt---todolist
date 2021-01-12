@@ -54,7 +54,8 @@ const fillToDoListItem = (toDoList, item) => {
         };
 
         const innerParapgraph = document.getElementById(`${item._id}-input`);
-        innerParapgraph.classList.add('strike-through');
+
+        innerParapgraph.classList.toggle('strike-through');
 
         await putData(data, item._id);
 

@@ -7,6 +7,8 @@ async function addTask() {
             done: false
         };
 
+        updateToDoList(data);
+
         await postData(data);
         
         fillToDoList();
@@ -38,9 +40,11 @@ const generateToDoListItem = (item) => {
 const fillToDoListItem = (toDoList, item) => {
     element = document.createElement('div');
     element.classList.add('to-do-list-item');
+    element.id = `${item._id}-container`;
     element.innerHTML = generateToDoListItem(item);
 
     toDoList.appendChild(element);
+    
 
     const checkbox = document.getElementById(`${item._id}-checkbox`);
     checkbox.addEventListener('click', async function() {
@@ -48,6 +52,9 @@ const fillToDoListItem = (toDoList, item) => {
             description: item.description,
             done: checkbox.checked
         };
+
+        const innerParapgraph = document.getElementById(`${item._id}-input`);
+        innerParapgraph.classList.add('strike-through');
 
         await putData(data, item._id);
 
@@ -63,6 +70,9 @@ const fillToDoListItem = (toDoList, item) => {
                 description: newDescription,
                 done: item.done
             };
+
+            const innerParapgraph = document.getElementById(`${item._id}-input`);
+            innerParapgraph.textContent = newDescription;
             
             await putData(data, item._id);
 
@@ -72,6 +82,9 @@ const fillToDoListItem = (toDoList, item) => {
 
     const trashcan = document.getElementById(`${item._id}-trashcan`);
     trashcan.addEventListener('click', async function() {
+        const removeElement = document.getElementById(`${item._id}-container`);
+        removeElement.remove();
+
         await deleteData(item._id);
 
         fillToDoList();
@@ -88,15 +101,31 @@ const emptyToDoList = (toDoList) => {
 };
 
 const fillToDoList = () => {
-    const toDoList = document.querySelector('.to-do-list');
-
-    emptyToDoList(toDoList);
-
     getData().then((data) => {
+        const toDoList = document.querySelector('.to-do-list');
+        emptyToDoList(toDoList);
+
         data.forEach((item) => {
             fillToDoListItem(toDoList, item);
         });
     });
+};
+
+const updateToDoList = (data) => {
+    const toDoList = document.querySelector('.to-do-list');
+    element = document.createElement('div');
+    element.classList.add('to-do-list-item');
+    element.innerHTML = `<div class="checkbox">
+        <input type="checkbox">
+        </div>
+        <div class="text-field">
+            <p>${data.description}</p>
+        </div>
+        <div class="trashcan">
+            <i class="fas fa-trash-alt orange"></i>
+        </div>`;
+
+    toDoList.prepend(element);
 };
 
 addEventListeners();

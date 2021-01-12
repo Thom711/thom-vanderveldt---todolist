@@ -1,31 +1,15 @@
-const addTaskButton = document.querySelector('#add-task-button');
-const addTaskValue = document.querySelector('#add-task');
-const toDoList = document.querySelector('.to-do-list');
+async function addTask() {
+    const addTaskValue = document.querySelector('#add-task');
 
-/*
-    Bekend probleem: JSONbox lijkt intern wat langzaam om te gaan met het verwerken van data.
-    Als je iets toegevoegd hebt, of een checkbox hebt geklikt / iets verwijderd etc. en er
-    lijkt niets te zijn veranderd, probeer eerst het scherm te verversen. 
-
-    Volgens mij ligt het niet aan mijn code, maar dat weet ik natuurlijk niet zeker :)
-*/
-
-/*
-    On page load: haal de data uit de API en laadt die in een local array. Tijdens het werken
-    werk je zowel de local array bij als de externe bron. De DOM vul je met data uit de local array.
-    Als de pagina ververst wordt de localarray weer opnieuw bijgetrokken uit JSONbox.
-*/
-
-const addTask = () => {
     if(addTaskValue.value) {
         const data = {
             description: addTaskValue.value,
             done: false
         };
-          
-        postData(data, apiUri).then(
-            fillToDoList()  
-        );
+
+        await postData(data);
+        
+        fillToDoList();
     };
 
     addTaskValue.value = '';
@@ -51,7 +35,7 @@ const generateToDoListItem = (item) => {
         </div>`;
 };
 
-const fillToDoListItem = (item) => {
+async function fillToDoListItem(toDoList, item) {
     element = document.createElement('div');
     element.classList.add('to-do-list-item');
     element.innerHTML = generateToDoListItem(item);
@@ -59,19 +43,19 @@ const fillToDoListItem = (item) => {
     toDoList.appendChild(element);
 
     const checkbox = document.getElementById(`${item._id}-checkbox`);
-    checkbox.addEventListener('click', function() {
+    checkbox.addEventListener('click', async function() {
         const data = {
             description: item.description,
             done: checkbox.checked
         };
 
-        putDataChecked(data, apiUri, item._id).then(
-            fillToDoList()
-        );
+        await putData(data, item._id);
+
+        fillToDoList();
     });
 
     const textfield = document.getElementById(`${item._id}-textfield`);
-    textfield.addEventListener('click', function() {
+    textfield.addEventListener('click', async function() {
         const newDescription = prompt('New message for task:');
 
         if(newDescription) {
@@ -80,43 +64,40 @@ const fillToDoListItem = (item) => {
                 done: item.done
             };
             
-            putDataDescription(data, apiUri, item._id).then(
-                fillToDoList()
-            );
+            await putData(data, item._id);
+
+            fillToDoList();
         };
     });
 
     const trashcan = document.getElementById(`${item._id}-trashcan`);
-    trashcan.addEventListener('click', function() {
-        deleteData(apiUri, item._id).then(
-            fillToDoList()
-        );
+    trashcan.addEventListener('click', async function() {
+        await deleteData(item._id);
+
+        fillToDoList();
     });
 };
 
 const addEventListeners = () => {
+    const addTaskButton = document.querySelector('#add-task-button');
     addTaskButton.addEventListener('click', addTask);
 };
 
-const emptyToDoList = () => {
+const emptyToDoList = (toDoList) => {
     toDoList.innerHTML = '';
 };
 
 const fillToDoList = () => {
-    emptyToDoList();
+    const toDoList = document.querySelector('.to-do-list');
 
-    getData(apiUri).then((data) => {
+    emptyToDoList(toDoList);
+
+    getData().then((data) => {
         data.forEach((item) => {
-            fillToDoListItem(item);
+            fillToDoListItem(toDoList, item);
         });
     });
 };
-
-// const waitForUpdate = () => {
-//         setTimeout(function() {
-//             fillToDoList();
-//         }, 1000);
-// };
 
 addEventListeners();
 fillToDoList();

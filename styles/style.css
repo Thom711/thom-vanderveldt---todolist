@@ -99,6 +99,19 @@ header {
           box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 1px -1px;
 }
 
+footer {
+  border-top: 1px solid black;
+  margin-top: 45px;
+  padding-top: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 0.8em;
+}
+
 .bShadow-33, .bShadow-33h:hover {
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 10px 10px 5px -5px;
           box-shadow: rgba(0, 0, 0, 0.2) 10px 10px 5px -5px;
